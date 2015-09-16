@@ -3,7 +3,9 @@
 """Pandoc filter to allow variable wrapping of LaTeX/pdf documents
 through the wrapfig package.
 
-Simply add a " {?}" tag to the end of the caption for the figure.
+Simply add a " {?}" tag to the end of the caption for the figure, where
+? is an integer specifying the width of the wrap in inches. 0 will 
+cause the width of the figure to be used.
 
 """
 
