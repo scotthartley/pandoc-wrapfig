@@ -12,12 +12,12 @@ cause the width of the figure to be used.
 from pandocfilters import toJSONFilter, Image, RawInline, stringify
 import re
 
-FLAG_PAT = re.compile('\{(\d+)\}')
+FLAG_PAT = re.compile('.*\{(\d+)\}')
 
 def wrapfig(key, val, fmt, meta):
     if key == 'Image':
         caption, target = val
-        if caption and FLAG_PAT.match(caption[-1]['c']):
+        if FLAG_PAT.match(stringify(caption)):
             # Strip tag
             size = FLAG_PAT.match(caption[-1]['c']).group(1)
             stripped_caption = caption[:-2]
@@ -37,7 +37,7 @@ def wrapfig(key, val, fmt, meta):
                             + [RawInline(fmt, latex_end)]
             else:
                 return Image(stripped_caption, target)
-            
+        
 
 if __name__ == '__main__':
     toJSONFilter(wrapfig)
