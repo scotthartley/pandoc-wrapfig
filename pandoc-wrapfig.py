@@ -12,7 +12,7 @@ cause the width of the figure to be used.
 from pandocfilters import toJSONFilter, Image, RawInline, stringify
 import re
 
-FLAG_PAT = re.compile('.*\{(\d+)\}')
+FLAG_PAT = re.compile('.*\{(\d+\.?\d?)\}')
 
 def wrapfig(key, val, fmt, meta):
     if key == 'Image':
