@@ -9,14 +9,15 @@ cause the width of the figure to be used.
 
 """
 
-from pandocfilters import toJSONFilter, Image, RawInline, stringify
+from pandocfilters import toJSONFilter, elt, RawInline, stringify
 import re
 
 FLAG_PAT = re.compile('.*\{(\d+\.?\d?)\}')
+AttrImage = elt('Image', 3) # From pandoc-fignos
 
 def wrapfig(key, val, fmt, meta):
     if key == 'Image':
-        caption, target = val
+        attrs, caption, target = val
         if FLAG_PAT.match(stringify(caption)):
             # Strip tag
             size = FLAG_PAT.match(caption[-1]['c']).group(1)
@@ -36,7 +37,7 @@ def wrapfig(key, val, fmt, meta):
                     return [RawInline(fmt, latex_begin + latex_fig)] \
                             + [RawInline(fmt, latex_end)]
             else:
-                return Image(stripped_caption, target)
+                return AttrImage(attrs, stripped_caption, target)
         
 
 if __name__ == '__main__':
