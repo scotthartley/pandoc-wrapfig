@@ -9,11 +9,10 @@ cause the width of the figure to be used.
 
 """
 
-from pandocfilters import toJSONFilter, elt, RawInline, stringify
+from pandocfilters import toJSONFilter, Image, RawInline, stringify
 import re
 
 FLAG_PAT = re.compile('.*\{(\d+\.?\d?)\}')
-AttrImage = elt('Image', 3) # From pandoc-fignos
 
 def wrapfig(key, val, fmt, meta):
     if key == 'Image':
@@ -37,7 +36,7 @@ def wrapfig(key, val, fmt, meta):
                     return [RawInline(fmt, latex_begin + latex_fig)] \
                             + [RawInline(fmt, latex_end)]
             else:
-                return AttrImage(attrs, stripped_caption, target)
+                return Image(attrs, stripped_caption, target)
         
 
 if __name__ == '__main__':
