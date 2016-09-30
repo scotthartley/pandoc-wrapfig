@@ -10,7 +10,7 @@ cause the width of the figure to be used.
 """
 
 from pandocfilters import toJSONFilter, Image, RawInline, stringify
-import re
+import re, sys
 
 FLAG_PAT = re.compile('.*\{(\d+\.?\d?)\}')
 
@@ -41,3 +41,4 @@ def wrapfig(key, val, fmt, meta):
 
 if __name__ == '__main__':
     toJSONFilter(wrapfig)
+    sys.stdout.flush() # Should fix issue #1 (pipe error)
