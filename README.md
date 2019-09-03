@@ -16,6 +16,12 @@ Simply include ` {x}` at the end of the captions for figures that are to be wrap
 that specifies the width of the wrap in inches. Setting it to 0 will cause the width of the figure
 to be used (as per the wrapfig package instructions). Figures without the tag will float as usual.
 
+To use a specific  length, you may also add `cm`,`pt`or `in` like `{5cm}`.
+
+Also, wrapfig allows optional specification of the "number of narrow lines" that are aquivalent to 
+height of the image. Though guessed by wrapfig, this sometimes has to be adjusted. This is possible 
+by adding a second number to the `{}` argument like: `{5cm,28}`.
+
 Wrapping is specific to pdf/LaTeX output. For other formats, the tag is simply removed.
 
 [pandoc]: http://pandoc.org
