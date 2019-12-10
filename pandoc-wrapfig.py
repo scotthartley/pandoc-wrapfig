@@ -4,29 +4,32 @@
 through the wrapfig package.
 
 Simply add a " {?}" tag to the end of the caption for the figure, where
-? is an integer specifying the width of the wrap in inches. 0 will 
-cause the width of the figure to be used.
+? is an integer specifying the width of the wrap in inches. 0 will cause
+the width of the figure to be used. Optionally precede ? with a
+character in the set {l,r,i,o} to set wrapfig's placement parameter; the
+default is 'l'.
 
 """
 
 from pandocfilters import toJSONFilter, Image, RawInline, stringify
 import re, sys
 
-FLAG_PAT = re.compile('.*\{(\d+\.?\d?(cm|in|pt)*)\,*(\d*)\}')
+FLAG_PAT = re.compile('.*\{(\w?)(\d+\.?\d?(cm|in|pt)*)\,*(\d*)\}')
 
 def wrapfig(key, val, fmt, meta):
     if key == 'Image':
         attrs, caption, target = val
         if FLAG_PAT.match(stringify(caption)):
             # Strip tag
-            size = FLAG_PAT.match(caption[-1]['c']).group(1)
-            lines = FLAG_PAT.match(caption[-1]['c']).group(3)
+            where = FLAG_PAT.match(caption[-1]['c']).group(1)
+            size = FLAG_PAT.match(caption[-1]['c']).group(2)
+            lines = FLAG_PAT.match(caption[-1]['c']).group(4)
             stripped_caption = caption[:-2]
             if fmt == 'latex':
                 if len(lines) > 0:
-                    latex_begin = r'\begin{wrapfigure}[' + lines + ']{l}{' + size + '}'
+                    latex_begin = r'\begin{wrapfigure}[' + lines + ']{%s}{' % where + size + '}'
                 else:
-                    latex_begin = r'\begin{wrapfigure}{l}{' + size + '}'
+                    latex_begin = r'\begin{wrapfigure}{%s}{' % where + size + '}'
                 if len(stripped_caption) > 0:
                     latex_fig = r'\centering\includegraphics{' + target[0] \
                                 + '}\caption{'
