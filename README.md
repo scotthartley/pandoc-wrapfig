@@ -15,6 +15,8 @@ default pandoc LaTeX template with this line added.
 Simply include ` {x}` at the end of the captions for figures that are to be wrapped. `x` is a number
 that specifies the width of the wrap in inches. Setting it to 0 will cause the width of the figure
 to be used (as per the wrapfig package instructions). Figures without the tag will float as usual.
+Optionally precede x with a character in the set {l,r,i,o} to set wrapfig's placement parameter; the
+default is 'l'.
 
 To use a specific  length, you may also add `cm`,`pt`or `in` like `{5cm}`.
 
