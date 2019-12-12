@@ -16,9 +16,10 @@ Simply include ` {x}` at the end of the captions for figures that are to be wrap
 that specifies the width of the wrap in inches. Setting it to 0 will cause the width of the figure
 to be used (as per the wrapfig package instructions). Figures without the tag will float as usual.
 Optionally precede x with a character in the set {l,r,i,o} to set wrapfig's placement parameter; the
-default is 'l'.
+default is 'l'. Optionally follow ?  with a '-' and another width specification to set wrapfig's
+overhang parameter and push the figure that far into the margin.
 
-To use a specific  length, you may also add `cm`,`pt`or `in` like `{5cm}`.
+To use a specific length, you may also add `cm`,`pt`or `in` like `{5cm}`.
 
 Also, wrapfig allows optional specification of the "number of narrow lines" that are aquivalent to 
 height of the image. Though guessed by wrapfig, this sometimes has to be adjusted. This is possible 
