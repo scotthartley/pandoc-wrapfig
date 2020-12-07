@@ -31,25 +31,39 @@ def wrapfig(key, val, fmt, meta):
             lines = FLAG_PAT.match(caption[-1]['c']).group(7)
             stripped_caption = caption[:-2]
             if fmt == 'latex':
-                if len(lines) > 0:
-                    latex_begin = r'\begin{wrapfigure}[' + lines \
-                        + ']{%s}%s{' % (where, overhang) + size + '}'
-                else:
-                    latex_begin = \
-                        r'\begin{wrapfigure}{%s}%s{' % (where, overhang) \
-                        + size + '}'
-                if len(stripped_caption) > 0:
-                    latex_fig = r'\centering\includegraphics{' + target[0] \
-                                + '}\caption{'
-                    latex_end = r'}\end{wrapfigure}'
-                    return [RawInline(fmt, latex_begin + latex_fig)] \
-                            + stripped_caption + [RawInline(fmt, latex_end)]
-                else:
-                    latex_fig = r'\centering\includegraphics{' + target[0] \
-                                + '}'
-                    latex_end = r'\end{wrapfigure}'
-                    return [RawInline(fmt, latex_begin + latex_fig)] \
-                            + [RawInline(fmt, latex_end)]
+                if where == 'm':  # produce a marginfigure
+                    latex_begin = r'\begin{marginfigure}'
+                    latex_end = r'}\end{marginfigure}'
+                    if len(stripped_caption) > 0:
+                        latex_fig = r'\includegraphics{' + target[0] \
+                                    + '}\caption{'
+                        return [RawInline(fmt, latex_begin + latex_fig)] \
+                                + stripped_caption + [RawInline(fmt, latex_end)]
+                    else:
+                        latex_fig = r'\includegraphics{' + target[0] \
+                                    + '}'
+                        return [RawInline(fmt, latex_begin + latex_fig)] \
+                                + [RawInline(fmt, latex_end)]
+                else:  # produce a wrapfigure
+                    if len(lines) > 0:
+                        latex_begin = r'\begin{wrapfigure}[' + lines \
+                            + ']{%s}%s{' % (where, overhang) + size + '}'
+                    else:
+                        latex_begin = \
+                            r'\begin{wrapfigure}{%s}%s{' % (where, overhang) \
+                            + size + '}'
+                    if len(stripped_caption) > 0:
+                        latex_fig = r'\centering\includegraphics{' + target[0] \
+                                    + '}\caption{'
+                        latex_end = r'}\end{wrapfigure}'
+                        return [RawInline(fmt, latex_begin + latex_fig)] \
+                                + stripped_caption + [RawInline(fmt, latex_end)]
+                    else:
+                        latex_fig = r'\centering\includegraphics{' + target[0] \
+                                    + '}'
+                        latex_end = r'\end{wrapfigure}'
+                        return [RawInline(fmt, latex_begin + latex_fig)] \
+                                + [RawInline(fmt, latex_end)]
             else:
                 return Image(attrs, stripped_caption, target)
         
