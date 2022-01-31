@@ -31,6 +31,7 @@ def wrapfig(key, val, fmt, meta):
             lines = FLAG_PAT.match(caption[-1]['c']).group(7)
             stripped_caption = caption[:-2]
             if fmt == 'latex':
+                raise_box = r'\raisebox{0pt}[\dimexpr\height-0.8\baselineskip\relax]{'
                 if where == 'm':  # produce a marginfigure
                     latex_begin = r'\begin{marginfigure}'
                     latex_end = r'}\end{marginfigure}'
@@ -62,11 +63,11 @@ def wrapfig(key, val, fmt, meta):
                         latex_fig = r'\centering\includegraphics{' + target[0] \
                                     + '}'
                         latex_end = r'\end{wrapfigure}'
-                        return [RawInline(fmt, latex_begin + latex_fig)] \
+                        return [RawInline(fmt, latex_begin + raise_box + latex_fig + '}')] \
                                 + [RawInline(fmt, latex_end)]
             else:
                 return Image(attrs, stripped_caption, target)
-        
+
 
 if __name__ == '__main__':
     toJSONFilter(wrapfig)
